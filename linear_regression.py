@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 data = pd.read_csv("bmw_global_sales_2018_2025.csv")
-# Clean-Up Data
+# Clean-Up Data Does it detect this change?
 columns_indices_to_drop = [2, 3, 5, 6, 7, 8, 9, 10]
 columns_to_drop = []
 for i in columns_indices_to_drop:
