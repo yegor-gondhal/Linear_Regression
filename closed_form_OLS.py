@@ -8,7 +8,9 @@ columns_indices_to_drop = [2, 3, 5, 6, 7, 8, 9, 10]
 columns_to_drop = []
 for i in columns_indices_to_drop:
     columns_to_drop.append(data.columns[i])
-data = data.drop(columns_to_drop, axis=1) # Leave only the year, month, and number of units sold
+
+# Leave only the year, month, and number of units sold
+data = data.drop(columns_to_drop, axis=1)
 # Get total # of cars sold by year and month
 data = data.groupby(["Year", "Month"], as_index=False)["Units_Sold"].sum()
 # Add index column to act as number of months after beginning of 2018
@@ -22,6 +24,7 @@ x = matrix[:,0]
 y = matrix[:,1]
 # Add a ones column to get the slope along with the intercept
 op_x = np.column_stack((np.ones(len(x)), x))
+# Use standard closed_form_OLS formula
 ans = np.matmul(np.transpose(op_x), op_x)
 ans = np.linalg.inv(ans)
 ans = np.matmul(ans, np.transpose(op_x))
@@ -36,6 +39,12 @@ y_pred = theta_0 + theta_1*x
 mse = np.sum((y - y_pred)**2)/np.size(y)
 print("MSE: ", mse)
 
+# Export values as comparison for linear_regression.py
+df = {"thetas": ans}
+df = pd.DataFrame(df)
+df.to_csv("OLS.csv", index=False)
+
+# Plot CSV data along with line of best fit
 plt.figure()
 plt.scatter(x, y)
 x_line = np.linspace(np.min(x), np.max(x), 100)

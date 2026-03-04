@@ -8,12 +8,14 @@ columns_indices_to_drop = [2, 3, 5, 6, 7, 8, 9, 10]
 columns_to_drop = []
 for i in columns_indices_to_drop:
     columns_to_drop.append(data.columns[i])
-data = data.drop(columns_to_drop, axis=1) # Leave only the year, month, and number of units sold
+
+# Leave only the year, month, and number of units sold
+data = data.drop(columns_to_drop, axis=1)
 # Get total # of cars sold by year and month
 data = data.groupby(["Year", "Month"], as_index=False)["Units_Sold"].sum()
 # Add index column to act as number of months after beginning of 2018
 data = data.reset_index()
-# Leave only months after beginning of 2018 and # of cars sold
+# Leave only months after beginning of 2018 and number of cars sold
 data = data.drop(["Year", "Month"], axis=1)
 #--------Manipulate the Data Above----------------
 #--------Keep Operations Below the Same-----------
@@ -33,9 +35,9 @@ slope_list = []
 intercept_list = []
 iteration_list = []
 while True:
-    y_pred = thetas[0]*x[:, 0] + thetas[1]*x[:, 1] # Predicted y using current intercept and slope
-    #thetas[0] = thetas[0] - eta*np.sum((y_pred - y)*x[:, 0])/m
-    #thetas[1] = thetas[1] - eta * np.sum((y_pred - y) * x[:, 1]) / m
+    # Predicted y using current intercept and slope
+    y_pred = thetas[0]*x[:, 0] + thetas[1]*x[:, 1]
+    # Update thetas using gradient-descent formula
     thetas = thetas - eta * np.sum(np.repeat((y_pred - y)[:, None], 2, axis=-1)*x, axis=0) / m
     if counter % 500 == 0: # Add new data points every 500 iterations
         slope_list.append(thetas[1])
@@ -43,7 +45,7 @@ while True:
         iteration_list.append(counter)
 
     if counter % 50000 == 0: # Record progress in the terminal
-        print("Iteration: ", counter) # Thetas converges in about 1,100,000 iterations
+        print("Iteration: ", counter)
         print("Intercept: ", thetas[0])
         print("Slope: ", thetas[1])
         mse = np.sum((y - y_pred)**2)/m
@@ -54,14 +56,18 @@ while True:
         # Re-assign the previous values if loop is not exited
         prev_intercept = thetas[0]
         prev_slope = thetas[1]
+
     counter += 1
 
+# Import values from closed_form_OLS.py
+df = pd.read_csv("OLS.csv")
+OLS_thetas = df["thetas"]
 
 print("Converged")
 print("Final Slope", thetas[1])
-print("Slope from OLS: 609.8525976668459", )
+print("Slope from OLS: ", OLS_thetas[1])
 print("Final Intercept", thetas[0])
-print("Intercept from OLS: 226401.22036082475")
+print("Intercept from OLS: ", OLS_thetas[0])
 
 # Convert python list to np array for easier calculation
 iteration_list = np.array(iteration_list)
@@ -77,6 +83,7 @@ df = {
 df = pd.DataFrame(df)
 df.to_csv("data.csv", index=False) # Export data
 
+# Plot slope/intercept vs iteration
 fig, (ax1, ax2) = plt.subplots(1, 2)
 ax1.scatter(iteration_list, slope_list, color="red", s=1)
 ax1.set_title("Slope vs Iteration")
