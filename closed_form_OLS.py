@@ -16,6 +16,8 @@ data = data.reset_index()
 # Leave only months after beginning of 2018 and # of cars sold
 data = data.drop(["Year", "Month"], axis=1)
 matrix = data.to_numpy()
+#--------Manipulate the Data Above----------------
+#--------Keep Operations Below the Same-----------
 x = matrix[:,0]
 y = matrix[:,1]
 # Add a ones column to get the slope along with the intercept

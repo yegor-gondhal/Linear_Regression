@@ -15,6 +15,8 @@ data = data.groupby(["Year", "Month"], as_index=False)["Units_Sold"].sum()
 data = data.reset_index()
 # Leave only months after beginning of 2018 and # of cars sold
 data = data.drop(["Year", "Month"], axis=1)
+#--------Manipulate the Data Above----------------
+#--------Keep Operations Below the Same-----------
 matrix = data.to_numpy()
 x = matrix[:,0]
 y = matrix[:,1]
