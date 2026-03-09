@@ -1,9 +1,10 @@
-PURPOSE:
+# Linear Regression
+## Purpose
 The purpose of this project was to demonstrate how linear regression using gradient-descent
 causes the slope and y-intercept of a best-fit line to converge to values that 
 minimize the MSE (Mean Squared Error).
 
-FILES:
+## Files
 The bmw_global_sales_2018_2025.csv file is just some arbitrary data that one could swap out.
 
 The closed_form_OLS.py returns the slope and y-intercept that minimizes the MSE for the 
@@ -22,12 +23,12 @@ slope or intercept.
 The plot.py file creates the same graph that is produced by linear_regression.py using data.csv in
 order to avoid recomputation.
 
-LIBRARIES:
+## Libraries
 - Numpy
 - Pandas
 - Matplotlib
 
-USEFUL INFO:
+## Useful Info
 - When running linear_regression.py with the original bmw data that I used, it took about 1.1 million iterations.
 - If you want to run this project using other data, make sure to correctly pre-process it as marked by the file.
   The correct format should be a pandas data file with two columns, x-axis data in the left column and y-axis
